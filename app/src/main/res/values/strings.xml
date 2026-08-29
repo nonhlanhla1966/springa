@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Springa</string>
+    <string name="add_label">Add Habit</string>
+    <string name="search_hint">Search</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_title">Delete this entry?</string>
+    <string name="delete_message">This cannot be undone.</string>
+    <string name="delete_confirm">Delete</string>
+    <string name="delete_keep">Keep</string>
+    <string name="empty_title">One habit at a time</string>
+    <string name="empty_body">Today is a great day to start a new habit.</string>
+    <string name="tagline">Springa · your habits, beautifully organized.</string>
+    <string name="new_entry">New entry</string>
+    <string name="saved">Saved</string>
+</resources>

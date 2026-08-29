@@ -1,0 +1,86 @@
+name: build
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-and-sign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Unit tests
+        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug
+
+      - name: Assemble release
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Locate build-tools
+        id: bt
+        run: |
+          BT=$(ls -d ${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}/build-tools/* 2>/dev/null | sort -V | tail -1)
+          echo "BT_DIR=$BT" >> "$GITHUB_ENV"
+
+      - name: Alignment check / zipalign
+        run: |
+          UNSIGNED=$(ls app/build/outputs/apk/release/*.apk | head -1)
+          "$BT_DIR/zipalign" -f -p 4 "$UNSIGNED" app-aligned.apk
+
+      - name: Create release keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore release-keystore.jks \
+            -storepass appfactory2024 \
+            -alias appfactory \
+            -keypass appfactory2024 \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=AppFactory, OU=Build, O=AppFactory, L=Internet, ST=Internet, C=XX"
+
+      - name: Sign with apksigner (v1+v2+v3)
+        run: |
+          "$BT_DIR/apksigner" sign \
+            --ks release-keystore.jks \
+            --ks-pass pass:appfactory2024 \
+            --key-pass pass:appfactory2024 \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            --out app-release.apk app-aligned.apk
+
+      - name: Verify signature
+        run: "$BT_DIR/apksigner" verify --verbose app-release.apk
+
+      - name: Compute SHA-256
+        run: sha256sum app-release.apk
+
+      - name: Verify APK contents
+        run: |
+          unzip -l app-release.apk | grep -E "classes.dex|AndroidManifest.xml|resources.arsc|mipmap" | head -40
+          unzip -l app-release.apk | grep -c "classes.dex" | xargs -I{} sh -c 'test {} -ge 1 || (echo "no classes.dex" && exit 1)'
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: app-release.apk
+
+      - name: Upload source bundle (verification aid)
+        uses: actions/upload-artifact@v3
+        with:
+          name: project-files
+          path: |
+            app/src
+            app/build.gradle
+          retention-days: 7

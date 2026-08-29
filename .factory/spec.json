@@ -1,0 +1,106 @@
+{
+  "appId": "habit-tracker-drinking-water-every-day-kjoie",
+  "idea": "A habit tracker for drinking water every day",
+  "intent": "studio",
+  "archetype": "studio",
+  "name": "Springa",
+  "tagline": "Springa · your habits, beautifully organized.",
+  "slug": "springa",
+  "applicationId": "com.springa.i8lj",
+  "versionCode": 1,
+  "versionName": "1.0.0",
+  "palette": {
+    "id": "teal",
+    "name": "Lagoon",
+    "keywords": [
+      "health",
+      "wellness",
+      "fitness",
+      "workout",
+      "run",
+      "exercise",
+      "medit",
+      "sleep",
+      "yoga",
+      "body",
+      "water hydrate",
+      "calorie",
+      "steps",
+      "habit",
+      "weight"
+    ],
+    "top": "#043F47",
+    "bottom": "#14A9A3",
+    "primary": "#2BC7AF",
+    "primaryDark": "#0E9B97",
+    "accent": "#4CE0C8",
+    "accentDark": "#1FB9AF",
+    "bg": "#04110F",
+    "surface": "#0A1D1B",
+    "surfaceVariant": "#0F2A27",
+    "outline": "#18423D",
+    "text": "#E2FAF6",
+    "textMuted": "#8CC9C2",
+    "success": "#46D6A2",
+    "danger": "#FF6B6B",
+    "iconGlyph": "heart"
+  },
+  "iconGlyph": "pulse",
+  "permissions": [],
+  "minSdk": 23,
+  "targetSdk": 29,
+  "compileSdk": 29,
+  "createdAt": "2026-08-29T18:54:14.606Z",
+  "decisions": [
+    "studio archetype: fully offline-first, zero permissions, local SQLite",
+    "icon concept: pulse glyph, dark-first gradient"
+  ],
+  "entity": {
+    "key": "habit",
+    "name": "Habit",
+    "plural": "Habits",
+    "glyph": "pulse",
+    "doneLabel": "Today"
+  },
+  "fields": [
+    {
+      "key": "amount",
+      "label": "Today",
+      "type": "number"
+    }
+  ],
+  "features": {
+    "doneToggle": true,
+    "amountField": true,
+    "categoryField": false,
+    "bodyField": false
+  },
+  "categories": [
+    "Morning",
+    "Evening",
+    "Movement",
+    "Mind"
+  ],
+  "presets": [
+    {
+      "title": "Drink 2L of water",
+      "category": "",
+      "amount": "2",
+      "body": ""
+    },
+    {
+      "title": "Walk 30 minutes",
+      "category": "",
+      "amount": "30",
+      "body": ""
+    }
+  ],
+  "emptyTitle": "One habit at a time",
+  "emptyBody": "Today is a great day to start a new habit.",
+  "nav": {
+    "primary": "Habits",
+    "secondary": "Archive",
+    "search": true
+  },
+  "statsMode": "count"
+}
