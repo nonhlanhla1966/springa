@@ -41,23 +41,23 @@ jobs:
       - name: Create release keystore
         run: |
           keytool -genkeypair -v \
-            -keystore release-keystore.jks \
-            -storepass appfactory2024 \
-            -alias appfactory \
-            -keypass appfactory2024 \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=AppFactory, OU=Build, O=AppFactory, L=Internet, ST=Internet, C=XX"
+          -keystore release-keystore.jks \
+          -storepass appfactory2024 \
+          -alias appfactory \
+          -keypass appfactory2024 \
+          -keyalg RSA -keysize 2048 -validity 10000 \
+          -dname "CN=AppFactory, OU=Build, O=AppFactory, L=Internet, ST=Internet, C=XX"
 
       - name: Sign with apksigner (v1+v2+v3)
         run: |
           "$BT_DIR/apksigner" sign \
-            --ks release-keystore.jks \
-            --ks-pass pass:appfactory2024 \
-            --key-pass pass:appfactory2024 \
-            --v1-signing-enabled true \
-            --v2-signing-enabled true \
-            --v3-signing-enabled true \
-            --out app-release.apk app-aligned.apk
+          --ks release-keystore.jks \
+          --ks-pass pass:appfactory2024 \
+          --key-pass pass:appfactory2024 \
+          --v1-signing-enabled true \
+          --v2-signing-enabled true \
+          --v3-signing-enabled true \
+          --out app-release.apk app-aligned.apk
 
       - name: Verify signature
         run: "$BT_DIR/apksigner" verify --verbose app-release.apk
