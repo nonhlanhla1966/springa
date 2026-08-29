@@ -72,13 +72,13 @@ jobs:
           unzip -l app-release.apk | grep -c "classes.dex" | xargs -I{} sh -c 'test {} -ge 1 || (echo "no classes.dex" && exit 1)'
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apk
           path: app-release.apk
 
       - name: Upload source bundle (verification aid)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: project-files
           path: |
