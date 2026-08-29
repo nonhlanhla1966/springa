@@ -60,7 +60,8 @@ jobs:
           --out app-release.apk app-aligned.apk
 
       - name: Verify signature
-        run: "$BT_DIR/apksigner" verify --verbose app-release.apk
+        run: |
+          "$BT_DIR/apksigner" verify --verbose app-release.apk
 
       - name: Compute SHA-256
         run: sha256sum app-release.apk
