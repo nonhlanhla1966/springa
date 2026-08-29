@@ -78,7 +78,7 @@ public class ItemEditorFragment extends BottomSheetDialogFragment {
         titleLayout.addView(titleInput);
         root.addView(titleLayout);
 
-        final LinearLayout bodyInput;
+        final TextInputLayout bodyInput;
         if (Spec.HAS_BODY) {
             bodyInput = fieldRoot(root);
             TextInputEditText bodyEdit = new TextInputEditText(requireContext());
@@ -92,7 +92,7 @@ public class ItemEditorFragment extends BottomSheetDialogFragment {
             bodyInput = null;
         }
 
-        final LinearLayout amountInput;
+        final TextInputLayout amountInput;
         if (Spec.HAS_AMOUNT) {
             amountInput = fieldRoot(root);
             TextInputEditText amountEdit = new TextInputEditText(requireContext());
@@ -105,7 +105,7 @@ public class ItemEditorFragment extends BottomSheetDialogFragment {
             amountInput = null;
         }
 
-        final LinearLayout categoryInput;
+        final TextInputLayout categoryInput;
         if (Spec.HAS_CATEGORY) {
             categoryInput = fieldRoot(root);
             TextInputEditText categoryEdit = new TextInputEditText(requireContext());
@@ -194,7 +194,7 @@ public class ItemEditorFragment extends BottomSheetDialogFragment {
         TextInputLayout lay = new TextInputLayout(requireContext());
         lay.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
         lay.setBoxStrokeColor(getColorCompat(R.color.accent));
-        lay.setHintTextColor(getColorCompat(R.color.text_muted));
+        lay.setHintTextColor(android.content.res.ColorStateList.valueOf(getColorCompat(R.color.text_muted)));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dp(12);
