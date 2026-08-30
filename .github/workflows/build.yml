@@ -71,11 +71,18 @@ jobs:
           unzip -l app-release.apk | grep -E "classes.dex|AndroidManifest.xml|resources.arsc|mipmap" | head -40
           unzip -l app-release.apk | grep -c "classes.dex" | xargs -I{} sh -c 'test {} -ge 1 || (echo "no classes.dex" && exit 1)'
 
+      - name: Collect badging (aapt2 dump — label/icon for verification)
+        run: |
+          "$BT_DIR/aapt2" dump badging app-release.apk > badging.txt
+          grep -E "package:|launchable-activity:|application-label:|application:" badging.txt | head -20
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: apk
-          path: app-release.apk
+          path: |
+            app-release.apk
+            badging.txt
 
       - name: Upload source bundle (verification aid)
         uses: actions/upload-artifact@v4
